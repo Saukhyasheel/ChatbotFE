@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ChatWindow from './components/ChatWindow';
+import Sidebar from './components/Sidebar';
 
 function App() {
+  const [messages, setMessages] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>
+      <Sidebar messages={messages} />
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <ChatWindow messages={messages} setMessages={setMessages} />
+      </div>
     </div>
   );
 }
 
 export default App;
+
