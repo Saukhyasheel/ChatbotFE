@@ -22,7 +22,7 @@ export default function ChatWindow({ messages, setMessages }) {
         { headers: { 'Content-Type': 'application/json' } }
       );
 
-      // Your backend returns: { "response": "The reply here" }
+      
       const botReply = response?.data?.response || 'No response received';
       const botMsg = { sender: 'bot', text: botReply };
       setMessages((prev) => [...prev, botMsg]);
@@ -37,8 +37,8 @@ export default function ChatWindow({ messages, setMessages }) {
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '1250px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <div style={{ height: '520px', overflowY: 'auto', marginBottom: '1rem', backgroundColor: '#f9f9f9', padding: '1rem' }}>
+    <div style={{ width: '100%', maxWidth: '1072px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <div style={{ height: '430px', overflowY: 'auto', marginBottom: '1rem', backgroundColor: '#f9f9f9', padding: '1rem' }}>
         {messages.map((msg, index) => (
           <div
             key={index}
