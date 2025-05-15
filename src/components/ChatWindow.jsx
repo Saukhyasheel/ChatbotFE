@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { ChatContext } from '../contexts/ChatContext';
 
 export default function ChatWindow() {
-  const [messages, setMessages] = useState([]);
+  const { currentSessionId, addMessage, getCurrentMessages } = useContext(ChatContext);
+  const messages = getCurrentMessages();
+
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -10,34 +13,33 @@ export default function ChatWindow() {
     if (!input.trim()) return;
 
     const userMsg = { sender: 'user', text: input };
-    setMessages((prev) => [...prev, userMsg]);
+    addMessage(currentSessionId, userMsg);
     setInput('');
     setLoading(true);
 
     try {
       const response = await axios.post(
-        'https://chatbot1-7.onrender.com/generate',
+        'https://chatbot1-z1sx.onrender.com/generate',
         { prompt: input },
         { headers: { 'Content-Type': 'application/json' } }
       );
 
-      // Your backend returns: { "response": "The reply here" }
       const botReply = response?.data?.response || 'No response received';
       const botMsg = { sender: 'bot', text: botReply };
-      setMessages((prev) => [...prev, botMsg]);
+      addMessage(currentSessionId, botMsg);
 
     } catch (error) {
       console.error("API error:", error);
       const errorMsg = { sender: 'bot', text: '⚠️ Error: Unable to fetch response.' };
-      setMessages((prev) => [...prev, errorMsg]);
+      addMessage(currentSessionId, errorMsg);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '600px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <div style={{ height: '400px', overflowY: 'auto', marginBottom: '1rem', backgroundColor: '#f9f9f9', padding: '1rem' }}>
+    <div style={{ width: '100%', maxWidth: '1200px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <div style={{ height: '550px', overflowY: 'auto', marginBottom: '1rem', backgroundColor: '#f9f9f9', padding: '1rem' }}>
         {messages.map((msg, index) => (
           <div
             key={index}
